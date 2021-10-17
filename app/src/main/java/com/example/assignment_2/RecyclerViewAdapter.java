@@ -1,0 +1,72 @@
+package com.example.assignment_2;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.viewHolder> {
+
+    ArrayList<Products> historyList;
+    Context mContext;
+
+
+    public static class viewHolder extends RecyclerView.ViewHolder {
+
+        private final TextView prodName;
+        private final TextView prodQty;
+        private final TextView prodPrice;
+
+
+        public viewHolder(@NonNull View itemView) {
+            super(itemView);
+            prodName = itemView.findViewById(R.id.productName);
+            prodQty = itemView.findViewById(R.id.productQty);
+            prodPrice = itemView.findViewById(R.id.productPrice);
+        }
+
+        public TextView getProdName() {
+            return prodName;
+        }
+
+        public TextView getProdQty() {
+            return prodQty;
+        }
+
+        public TextView getProdPrice() {
+            return prodPrice;
+        }
+
+    }
+
+    public RecyclerViewAdapter(ArrayList<Products> historyList, Context mContext) {
+        this.historyList = historyList;
+        this.mContext = mContext;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerViewAdapter.viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater myInflater = LayoutInflater.from(mContext);
+        View view = myInflater.inflate(R.layout.product_list, parent, false);
+        return new viewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter.viewHolder holder, int position) {
+        holder.getProdName().setText(historyList.get(position).productName);
+        holder.getProdQty().setText(String.valueOf(historyList.get(position).productQty));
+        holder.getProdPrice().setText(String.valueOf(historyList.get(position).productPrice));
+    }
+
+    @Override
+    public int getItemCount() {
+        return historyList.size();
+    }
+}
