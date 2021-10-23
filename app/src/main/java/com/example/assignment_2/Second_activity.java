@@ -1,5 +1,6 @@
 package com.example.assignment_2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,16 +21,30 @@ public class Second_activity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
+        ArrayList<Products> newItems = new ArrayList<>(1);
+        
         historyBut = (Button) findViewById(R.id.buttonHistory);
 
         historyBut.setOnClickListener(this);
 
+
         if(getIntent().hasExtra("bundle"))
         {
             Bundle bundleFromMainActivity = getIntent().getBundleExtra("bundle");
-            history = bundleFromMainActivity.getParcelableArrayList("productHistory");
+            newItems = bundleFromMainActivity.getParcelableArrayList("productHistory");
         }
 
+
+        if(savedInstanceState == null) {
+            history = new ArrayList<>(1);
+        }
+        else
+            history = savedInstanceState.getParcelableArrayList("listOfHistory");
+
+        for(Products p : newItems)
+        {
+            history.add(p);
+        }
     }
 
     @Override
@@ -40,5 +55,12 @@ public class Second_activity extends AppCompatActivity implements View.OnClickLi
         bundle.putParcelableArrayList("productHistory", history);
         myIntent.putExtra("bundle", bundle);
         startActivity(myIntent);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("listOfHistory", history);
     }
 }

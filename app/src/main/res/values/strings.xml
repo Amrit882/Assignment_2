@@ -17,4 +17,7 @@
     <string name="quantity">Quantity</string>
     <string name="historyBut">History</string>
     <string name="managerBut">Manager</string>
+    <string name="priceText">Price:</string>
+    <string name="productText">Product:</string>
+    <string name="purchase_date_text">Purchase Date:</string>
 </resources>

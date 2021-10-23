@@ -17,6 +17,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context mContext;
 
 
+    public interface OnItemClickListner{
+        void onProductClicked(Products item);
+    }
+
+
     public static class viewHolder extends RecyclerView.ViewHolder {
 
         private final TextView prodName;
@@ -45,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    public RecyclerViewAdapter(ArrayList<Products> historyList, Context mContext) {
+    public RecyclerViewAdapter(ArrayList<Products> historyList, Context mContext, OnItemClickListner listner) {
         this.historyList = historyList;
         this.mContext = mContext;
     }

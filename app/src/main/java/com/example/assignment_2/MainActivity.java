@@ -104,37 +104,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             qtyText.setText("");
         String text = qtyText.getText().toString();
         String op = ((Button)view).getText().toString();
+
         switch (op) {
-            case "1":
-                qtyText.setText(text + "1");
-                break;
-            case "2":
-                qtyText.setText(text + "2");
-                break;
-            case "3":
-                qtyText.setText(text + "3");
-                break;
-            case "4":
-                qtyText.setText(text + "4");
-                break;
-            case "5":
-                qtyText.setText(text + "5");
-                break;
-            case "6":
-                qtyText.setText(text + "6");
-                break;
-            case "7":
-                qtyText.setText(text + "7");
-                break;
-            case "8":
-                qtyText.setText(text + "8");
-                break;
-            case "9":
-                qtyText.setText(text + "9");
-                break;
-            case "0":
-                qtyText.setText(text + "0");
-                break;
             case "C":
                 clear();
                 totalText.setText("Total");
@@ -146,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 clear();
                 break;
-            default:
+            case "Manager":
                 Intent myIntent = new Intent(this, Second_activity.class);
                 Bundle bundle = new Bundle();
 
@@ -154,11 +125,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 myIntent.putExtra("bundle", bundle);
 
                 startActivity(myIntent);
-
+                break;
+            default:
+                qtyText.setText(text + op);
+                break;
         }
-
-
-
     }
 
     public void clear() {
@@ -209,4 +180,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         outState.putParcelableArrayList("listOfHistory", historyList);
     }
+
+
 }
