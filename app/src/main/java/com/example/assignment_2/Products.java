@@ -23,6 +23,13 @@ public class Products implements Parcelable {
         this.purchaseDate = "";
     }
 
+    public Products(Products p) {
+        this.productName = p.productName;
+        this.purchaseDate = p.purchaseDate;
+        this.productQty = p.productQty;
+        this.productPrice = p.productPrice;
+    }
+
     protected Products(Parcel in) {
         productName = in.readString();
         productQty = in.readInt();

@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button oneBut, twoBut, threeBut, fourBut, fiveBut, sixBut, sevenBut, eightBut, nineBut, zeroBut;
     Button clearBut, totalBut, managerBut;
     ListView productList;
+    Spinner landScapeProducts;
     ProductAdapter adapter;
     ArrayList<Products> listOfProducts;
     ArrayList<Products> historyList;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder = new AlertDialog.Builder(this);
 
         productList = (ListView) findViewById(R.id.productListView);
+        landScapeProducts = (Spinner) findViewById(R.id.productSpinner);
+
         productText = (TextView) findViewById(R.id.textView);
         qtyText = (TextView) findViewById(R.id.quantity);
         totalText = (TextView) findViewById(R.id.totalT);
@@ -87,15 +92,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         totalBut.setOnClickListener(this);
         managerBut.setOnClickListener(this);
 
-        adapter = new ProductAdapter(this, listOfProducts);
-        productList.setAdapter(adapter);
+        if(zeroBut.getText().toString().equals("O")) {
+            String[] spinnerList = new String[] {listOfProducts.get(0).productName, listOfProducts.get(1).productName, listOfProducts.get(2).productName};
+            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.spinner_row, R.id.spinnerText, spinnerList);
+            landScapeProducts.setAdapter(spinnerAdapter);
 
-        productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            landScapeProducts.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     productText.setText(listOfProducts.get(i).productName);
-            }
-        });
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    //productText.setText("Product Type");
+                }
+            });
+
+        }
+        else if (zeroBut.getText().toString().equals("0")){
+            adapter = new ProductAdapter(this, listOfProducts);
+            productList.setAdapter(adapter);
+
+            productList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    productText.setText(listOfProducts.get(i).productName);
+                }
+            });
+        }
     }
 
     @Override
@@ -145,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
         String strDate = dateFormat.format(date);
         type = productText.getText().toString();
-        if(type.equals("Product Type") || qtyText.getText().toString().equals("Quantity"))
+        if(type.equals("Product Type") || (qtyText.getText().toString()).equals(""))
         {
             Toast.makeText(this, "All fields are required!!", Toast.LENGTH_LONG).show();
             return 0;
@@ -164,7 +188,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         builder.setMessage("Your purchase is " + qty + " " + listOfProducts.get(i).productName + " for " + (price * qty));
                         builder.show();
                         listOfProducts.get(i).updateQty(qty);
-                        productList.setAdapter(adapter);
+                        if(zeroBut.getText().toString().equals("0"))
+                            productList.setAdapter(adapter);
                     }
                 }
             }
@@ -180,6 +205,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         outState.putParcelableArrayList("listOfHistory", historyList);
     }
-
 
 }

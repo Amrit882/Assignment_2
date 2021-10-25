@@ -1,5 +1,6 @@
 package com.example.assignment_2;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     ArrayList<Products> historyList;
     Context mContext;
 
-
     public interface OnItemClickListner{
         void onProductClicked(Products item);
+    }
+
+    private final OnItemClickListner listner;
+
+    public RecyclerViewAdapter(ArrayList<Products> historyList, Context mContext, OnItemClickListner listner) {
+        this.historyList = historyList;
+        this.mContext = mContext;
+        this.listner = listner;
     }
 
 
@@ -50,10 +58,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    public RecyclerViewAdapter(ArrayList<Products> historyList, Context mContext, OnItemClickListner listner) {
-        this.historyList = historyList;
-        this.mContext = mContext;
-    }
+
 
     @NonNull
     @Override
@@ -64,10 +69,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.viewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerViewAdapter.viewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getProdName().setText(historyList.get(position).productName);
         holder.getProdQty().setText(String.valueOf(historyList.get(position).productQty));
         holder.getProdPrice().setText(String.valueOf(historyList.get(position).productPrice));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listner.onProductClicked(historyList.get(position));
+            }
+        });
     }
 
     @Override

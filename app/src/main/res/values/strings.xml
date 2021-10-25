@@ -20,4 +20,5 @@
     <string name="priceText">Price:</string>
     <string name="productText">Product:</string>
     <string name="purchase_date_text">Purchase Date:</string>
+    <string name="zero_land">O</string>
 </resources>
